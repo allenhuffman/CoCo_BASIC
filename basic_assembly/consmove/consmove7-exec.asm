@@ -1,4 +1,6 @@
 ; lwasm consmove7-exec.asm -fbasic -oconsmove7-exec.bas --map --list
+; a09 -frsdos -Bconsmove7-exec.bas -oconsmove7-exec.bin consmove7-exec.asm
+; a09 -fbasic -L63000 -oconsmove7-exec.bas consmove7-exec.asm
 ; decb copy -2 consmove7-exec.bin drive0.dsk,CONSMVEX.BIN
 
 ; Allow embedded characters to move the cursor in a PRINT
