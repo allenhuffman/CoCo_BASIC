@@ -1,0 +1,105 @@
+                      (        clear.asm):00001             org $3f00
+                      (        clear.asm):00002         
+3F00 7F0400           (        clear.asm):00003 (6)         clr 1024
+                      (        clear.asm):00004         
+3F03 4F               (        clear.asm):00005 (1)         clra
+3F04 B70400           (        clear.asm):00006 (4)         sta 1024
+3F07 B70401           (        clear.asm):00007 (4)         sta 1025
+                      (        clear.asm):00008         
+3F0A CC0000           (        clear.asm):00009 (3)         ldd #0
+3F0D FD0400           (        clear.asm):00010 (5)         std 1024
+                      (        clear.asm):00011         
+3F10 CC0000           (        clear.asm):00012 (3)         ldd #0
+3F13 8E0400           (        clear.asm):00013 (3)         ldx #1024
+3F16 ED84             (        clear.asm):00014 (5)         std ,x
+                      (        clear.asm):00015         
+3F18 8680             (        clear.asm):00016 (2)     start lda #128
+3F1A 8D5A             (        clear.asm):00017 (6)         bsr clearA48s
+3F1C 39               (        clear.asm):00018 (4)         rts
+                      (        clear.asm):00019         
+3F1D                  (        clear.asm):00020         clear
+3F1D 8660             (        clear.asm):00021 (2)         lda #96     * A=96 (green space)
+3F1F                  (        clear.asm):00022         clearA
+3F1F 8E0400           (        clear.asm):00023 (3)         ldx #1024   * X=1024 (top left of screen)
+3F22                  (        clear.asm):00024         loop
+3F22 A780             (        clear.asm):00025 (5)         sta ,x+     * POKE X,A:X=X+1
+3F24 8C0600           (        clear.asm):00026 (3)         cmpx #1536  * Compare X to 1536 
+3F27 26F9             (        clear.asm):00027 (3)         bne loop    * If X<>1536, GOTO loop
+3F29 39               (        clear.asm):00028 (4)         rts         * RETURN
+                      (        clear.asm):00029         
+3F2A                  (        clear.asm):00030         clear16
+3F2A 8660             (        clear.asm):00031 (2)         lda #96     * A=96
+3F2C 1F89             (        clear.asm):00032 (4)         tfr a,b     * B=A (D=A*256+B)
+3F2E                  (        clear.asm):00033         clearA16
+3F2E 8E0400           (        clear.asm):00034 (3)         ldx #1024   * X=1024 (top left of screen)
+                      (        clear.asm):00035             opt ct,cc   * Clear counter, turn it on.
+3F31                  (        clear.asm):00036                 loop16
+3F31 ED81             (        clear.asm):00037 (7)     7           std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F33 8C0600           (        clear.asm):00038 (3)     10          cmpx #1536  * Compare X to 1536
+3F36 26F9             (        clear.asm):00039 (3)     13          bne loop16  * If X<>1536, GOTO loop16
+                      (        clear.asm):00040                     opt noct    * Turn off counter.
+3F38 39               (        clear.asm):00041 (4)         rts         * RETURN
+                      (        clear.asm):00042         
+3F39                  (        clear.asm):00043         clear32
+3F39 8660             (        clear.asm):00044 (2)         lda #96     * A=96
+3F3B 1F89             (        clear.asm):00045 (4)         tfr a,b     * B=A (D=A*256+B)
+3F3D                  (        clear.asm):00046         clearA32
+3F3D 8E0400           (        clear.asm):00047 (3)         ldx #1024   * X=1024 (top left of screen)
+                      (        clear.asm):00048             opt ct,cc   * Clear counter, turn it on.
+3F40                  (        clear.asm):00049                 loop32
+3F40 ED81             (        clear.asm):00050 (7)     7           std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F42 ED81             (        clear.asm):00051 (7)     14          std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F44 8C0600           (        clear.asm):00052 (3)     17          cmpx #1536  * Compare X to 1536.
+3F47 26F7             (        clear.asm):00053 (3)     20          bne loop32  * If X<>1536, GOTO loop32
+                      (        clear.asm):00054                     opt noct    * Turn off counter.
+3F49 39               (        clear.asm):00055 (4)         rts         * RETURN
+                      (        clear.asm):00056         
+3F4A                  (        clear.asm):00057         clear48
+3F4A 8660             (        clear.asm):00058 (2)         lda #96     * A=96
+3F4C 1F89             (        clear.asm):00059 (4)         tfr a,b     * B=A (D=A*256+B)
+3F4E                  (        clear.asm):00060         clearA48
+3F4E 8E0400           (        clear.asm):00061 (3)         ldx #1024   * X=1024 (top left of screen)
+                      (        clear.asm):00062             opt ct,cc   * Clear counter, turn it on.
+3F51                  (        clear.asm):00063                 loop48
+3F51 ED81             (        clear.asm):00064 (7)     7           std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F53 ED81             (        clear.asm):00065 (7)     14          std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F55 ED81             (        clear.asm):00066 (7)     21          std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F57 8C0600           (        clear.asm):00067 (3)     24          cmpx #1536  * Compare X to 1536.
+3F5A 26F5             (        clear.asm):00068 (3)     27          bne loop48  * If X<>1536, GOTO loop48
+3F5C ED84             (        clear.asm):00069 (5)     32          std ,x      * POKE X,A:POKE X+1,B:X=X+2
+                      (        clear.asm):00070                     opt noct    * Turn off counter.
+3F5E 39               (        clear.asm):00071 (4)         rts         * RETURN
+                      (        clear.asm):00072         
+3F5F                  (        clear.asm):00073         clear64
+3F5F 8660             (        clear.asm):00074 (2)         lda #96     * A=96
+3F61 1F89             (        clear.asm):00075 (4)         tfr a,b     * B=A (D=A*256+B)
+3F63                  (        clear.asm):00076         clearA64
+3F63 8E0400           (        clear.asm):00077 (3)         ldx #1024   * X=1024 (top left of screen)
+                      (        clear.asm):00078             opt ct,cc   * Clear counter, turn it on.
+3F66                  (        clear.asm):00079                 loop64
+3F66 ED81             (        clear.asm):00080 (7)     7           std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F68 ED81             (        clear.asm):00081 (7)     14          std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F6A ED81             (        clear.asm):00082 (7)     21          std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F6C ED81             (        clear.asm):00083 (7)     28          std ,x++    * POKE X,A:POKE X+1,B:X=X+2
+3F6E 8C0600           (        clear.asm):00084 (3)     31          cmpx #1536  * Compare X to 1536.
+3F71 26F3             (        clear.asm):00085 (3)     34          bne loop64  * If X<>1536, GOTO loop64
+                      (        clear.asm):00086                     opt noct    * Turn off counter.
+3F73 39               (        clear.asm):00087 (4)         rts         * RETURN
+                      (        clear.asm):00088         
+3F74                  (        clear.asm):00089         clear48s
+3F74 8660             (        clear.asm):00090 (2)         lda #96     * A=96
+3F76                  (        clear.asm):00091         clearA48s
+3F76 1F89             (        clear.asm):00092 (4)         tfr a,b     * B=A (D=A*256+B)
+3F78 1F01             (        clear.asm):00093 (4)         tfr d,x     * X=D
+3F7A 1F02             (        clear.asm):00094 (4)         tfr d,y     * Y=D
+3F7C CE0600           (        clear.asm):00095 (3)         ldu #1536   * U=1536 (1 past end of screen)
+                      (        clear.asm):00096             opt ct,cc   * Clear counter, turn it on.
+3F7F                  (        clear.asm):00097                 loop48s
+3F7F 3636             (        clear.asm):00098 (10)    10          pshu d,x,y
+3F81 11830402         (        clear.asm):00099 (4)     14          cmpu #1026  * Compare U to 1026 (two bytes from start).
+3F85 2EF8             (        clear.asm):00100 (3)     17          bgt loop48s * If X<>1026, GOTO loop48s
+3F87 3606             (        clear.asm):00101 (6)     23          pshu d      * Final 2 bytes.
+                      (        clear.asm):00102                     opt noct    * Turn off counter.
+3F89 39               (        clear.asm):00103 (4)         rts         * RETURN
+                      (        clear.asm):00104         
+                      (        clear.asm):00105             END $3f00
