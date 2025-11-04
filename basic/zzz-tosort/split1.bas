@@ -1,0 +1,8 @@
+0 REM split1.bas
+10 S1=&H12
+20 S2=&H34
+30 R=S1*256+S2
+40 PRINT HEX$(S1)" "HEX$(S2)" -> "HEX$(R)
+50 D1=INT(R/256)
+60 D2=R-(D1*256)
+70 PRINT HEX$(R)" -> "HEX$(D1)" "HEX$(D2)

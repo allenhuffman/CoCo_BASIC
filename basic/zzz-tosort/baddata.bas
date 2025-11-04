@@ -1,0 +1,5 @@
+0 REM baddata.bas
+10 READ A$:IF A$="" THEN END
+15 PRINT A$;:GOTO 10
+20 DATA ":":DATA HELLO
+40 DATA ""

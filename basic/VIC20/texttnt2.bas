@@ -1,0 +1,34 @@
+10 POKE 65495,0
+20 CLS
+30 PRINT  "   MEN: 1          SCORE: 1     ";
+40 PRINT  " X<00000000000000000000000000>X ";
+50 PRINT  " X ^^^^^^^^^^^^^^^^^^^^^^^^^^ X ";
+60 PRINT  " X                            X ";
+70 PRINT  " X                            X ";
+80 PRINT  " X          *                 X ";
+90 PRINT " X                            X ";
+100 PRINT " X                            X ";
+110 PRINT " X                            X ";
+120 PRINT " X                            X ";
+130 PRINT " X               U            X ";
+140 PRINT " X(==========================)X ";
+150 PRINT " XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ";
+160 PRINT "   X                        X   ";
+170 PRINT "  XXXXXXXXXXXXXXXXXXXXXXXXXXXX  ";
+180 PRINT "                               ";
+185 C=4
+190 FOR L=1024 TO 1535:V=PEEK(L)
+200 IF V=88 THEN POKE L,128:GOTO 310
+210 IF V=124 THEN POKE L,128+8+C*16:GOTO 310 '0111
+220 IF V=126 THEN POKE L,128+4+C*16:GOTO 310 '1011
+230 IF V=112 THEN POKE L,128+1+C*16:GOTO 310 '1110
+240 IF V=94 THEN POKE L,128+3+C*16:GOTO 310  '1100
+250 IF V=96 THEN POKE L,128+15+C*16:GOTO 310    '1111
+260 IF V=104 THEN POKE L,128+13+C*16:GOTO 310 '0001
+270 IF V=105 THEN POKE L,128+13+C*16:GOTO 310 '0010
+280 IF V=125 THEN POKE L,128+7+C*16:GOTO 310 '1000
+290 IF V=85 THEN POKE L,128+12+C*16:GOTO 310  '0011
+300 IF V=106 THEN POKE L,128+15+C*16:GOTO 310 '1111
+310 NEXT
+320 GOTO 320
+

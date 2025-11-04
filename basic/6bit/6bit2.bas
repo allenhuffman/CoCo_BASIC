@@ -1,0 +1,47 @@
+0 REM 6BIT2.BAS
+1 REM As proposed by MiaM
+
+5 DIM OD(500):OD=0
+
+10 Z$="Greetings from Sub-Etha Software! Do you know where your towel is?"
+11 FOR Z=1 TO LEN(Z$) STEP 3
+12 A=ASC(MID$(Z$,Z,1))
+13 B=ASC(MID$(Z$,Z+1,1))
+14 C=ASC(MID$(Z$,Z+2,1))
+
+15 REM --XXXXXX of A
+20 O1=(A AND &H3F)
+
+25 REM --XXXXXX of B
+30 O2=(B AND &H3F)
+
+35 REM --XXXXXX of C
+40 O3=(C AND &H3F)
+
+
+45 REM XX------ of A
+50 O4=(A AND &HC0)/4
+
+55 REM XX------ of B
+60 O4=O4+(B AND &HC0)/16
+
+65 REM XX------ of C
+70 O4=O4+(C AND &HC0)/64
+
+80 PRINT A;B;C,O1;O2;O3;O4
+
+85 OD(OD)=O1:OD=OD+1
+86 OD(OD)=O2:OD=OD+1
+87 OD(OD)=O3:OD=OD+1
+88 OD(OD)=O4:OD=OD+1
+
+90 NEXT:PRINT
+
+100 FOR Z=0 TO OD-1:PRINT OD(Z);:NEXT
+110 PRINT
+
+200  FOR Z=0 TO OD-1 STEP 4
+210 PRINT CHR$(OD(Z)+INT(OD(Z+3) AND &H30)*64;
+220 PRINT CHR$(OD(Z+1)+INT(OD(Z+3) AND &HC)*16);
+230 PRINT CHR$(OD(Z+2)+INT(OD(Z+3) AND &H3)*4);
+240 NEXT

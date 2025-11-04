@@ -1,0 +1,4 @@
+jmurphy
+
+DEF FN BBCLN(X)=LOG(X)
+DEF FN BBCLOG(X)=LOG(X)/LOG(10)

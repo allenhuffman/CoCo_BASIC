@@ -16,6 +16,7 @@
 *
 ORGADDR EQU     $3f00
 
+POLCAT  EQU     $A000
 INTCNV  EQU     $B3ED   * 46061
 GIVABF  EQU     $B4F4   * 46324
 
@@ -30,17 +31,16 @@ start   jsr     INTCNV  * get passed in value in D
         ldx     #$400   * load X with start of screen
         ldy     #maze   * load Y with start of maze data
 
+        ; insert code here
 
+
+inkey   jsr     [POLCAT]
+        bne     inkey        
 
         bra     return  * done
 error   ldd     #-1     * load D with -1 for error code
 return  jmp     GIVABF  * return to caller
 
-
-
-* lwasm --decb -o clearx3.bin clearx3.asm
-* lwasm --decb -f basic -o clearx3.bas clearx3.asm
-* decb copy -2 -r clearx3.bin ../Xroar/dsk/DRIVE0.DSK,CLEARX3.BIN
 mazew   FCB 88
 mazeh   FCB 91
 maze    FCB $3f,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$f0
@@ -141,3 +141,6 @@ maze    FCB $3f,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$ff,$f0
  
     end
   
+* lwasm --decb -o pacmaze.bin pacmaze.asm
+* lwasm --decb -f basic -o pacmaze.bas pacmaze.asm
+* decb copy -2 -r pacmaze.bin ../Xroar/dsk/DRIVE0.DSK,pacmaze.BIN

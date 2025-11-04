@@ -1,0 +1,310 @@
+0 REM *ALL RAM* BBS System 1.0
+1 REM   Shareware / (C) 1983
+2 REM     By Allen Huffman
+3 REM  110 Champions Dr, #811
+4 REM     Lufkin, TX 75901
+5 CLS
+ FOR A=0 TO 8
+ READ A$
+ POKE 1024+A,VAL("&H"+A$)
+ NEXT A
+ EXEC 1024
+ DATA C6,1,96,BC,1F,2,7E,96,A3
+10 CLEAR 21000
+ DIM NM$(200),MS$(19,10),A$,F$,S$,T$,BR$,CL$,NM$,PS$,PW$,A,B,C,CL,LN,LV,MS,NM,KY,UC
+15 CL$=CHR$(12)+CHR$(14)
+ BR$="*==============*==============*"
+ GO SUB 555
+20 CLS
+ PRINT TAB(6)"*ALL RAM* BBS SYSTEM"
+ PRINT"USERS:"NM,"CALLS:"CL
+ PRINT TAB(5)"SYSTEM AWAITING CALLER";
+ GO SUB 1005
+ SOUND 200,10
+25 A$="Welcome To *ALL RAM* BBS!"
+ GO SUB 1055
+ KY=0
+ CL=CL+1
+30 PRINT
+ PRINT"Password or 'NEW' :";
+ UC=1
+ GO SUB 1005
+ PS$=A$
+ IF A$=""OR A$="NEW"THEN 55 ELSE PRINT"Checking: ";:A=0
+35 A$=NM$(A)
+ B=INSTR(A$,"\")
+ NM$=LEFT$(A$,B-1)
+ PW$=MID$(A$,B+1,LEN(A$)-B-1)
+ LV=VAL(RIGHT$(A$,1))
+ IF PW$=PS$THEN 45 ELSE A=A+1:IF A<=NM THEN 35
+40 PRINT"*INVALID*"
+ KY=KY+1
+ IF KY<3 THEN 30 ELSE 215
+45 PRINT"*ACCEPTED*"
+ PRINT BR$
+ PRINT"On-Line: "NM$
+ PRINT"Access :"LV
+ PRINT"Caller :"CL
+ KY=0
+ GO TO 115
+50 'New User
+55 A$="Password Application Form"
+ GO SUB 1055
+60 IF NM=200 THEN PRINT"Sorry, the userlog is full now.":GO TO 215 ELSE PRINT"Name=20 chars, Password=8 chars"
+65 PRINT
+ PRINT"Full Name :";
+ UC=1
+ GO SUB 1005
+ NM$=A$
+ IF A$=""OR LEN(A$)>20 THEN 30
+70 PRINT"Password  :";
+ UC=1
+ GO SUB 1005
+ PW$=A$
+ IF A$=""OR LEN(A$)>8 THEN 30
+75 PRINT
+ PRINT"Name :"NM$
+ PRINT"Pswd :"PW$
+ PRINT"Is this correct? ";
+ UC=1
+ GO SUB 1005
+ IF LEFT$(A$,1)="Y"THEN 80 ELSE 65
+80 NM=NM+1
+ NM$(NM)=NM$+"\"+PW$+"0"
+ LV=0
+ KY=0
+85 PRINT"Your password will be validated as soon as time permits.  Press"
+ PRINT"[ENTER] to continue :";
+ GO SUB 1005
+100 'Main Menu
+105 A$="*ALL RAM* BBS Master Menu"
+ GO SUB 1055
+110 PRINT"C-all Sysop","P-ost Msg"
+ PRINT"G-oodbye","R-ead Msg"
+ PRINT"U-serlog","S-can Titles"
+115 PRINT BR$
+120 KY=KY+1
+ IF KY>200 THEN PRINT"Sorry, your time on-line is up.":GO TO 210 ELSE IF KY>180 THEN PRINT"Please complete your call soon."
+125 PRINT TAB(7)"?=Menu/Command :";
+ UC=1
+ GO SUB 1005
+ A$=LEFT$(A$,1)
+130 LN=INSTR("?CGRSPU%",A$)
+ IF LN=0 THEN PRINT"*Invalid Command*":GO TO 120
+135 IF LV<1 AND LN>5 THEN PRINT" Sorry, you are not validated.":GO TO 125
+140 ON LN GO TO 105,155,205,405,455,305,255,505
+150 'Call Sysop
+155 A$="Calling the Sysop"
+ GO SUB 1055
+ A=0
+165 PRINT" BEEP!";
+ SOUND 150,5
+ IF INKEY$=CHR$(12)THEN 175 ELSE PRINT STRING$(5,8);:A=A+1:IF A<25 THEN 165
+170 PRINT
+ PRINT" The Sysop is unavaliable now."
+ GO TO 115
+175 PRINT
+ PRINT TAB(6)"*Chat mode engaged*"
+180 GO SUB 1005
+ IF LEFT$(A$,3)="BYE"THEN 185 ELSE 180
+185 PRINT TAB(5)"*Chat mode terminated*"
+ GO TO 115
+200 'Goodbye
+205 A$="Thank you for calling"
+ GO SUB 1055
+210 PRINT
+ PRINT"Goodbye, "NM$"!"
+ PRINT
+ PRINT"Please call again."
+215 PRINT
+ PRINT
+ PRINT"*ALL RAM* BBS disconnecting..."
+220 FOR A=1 TO 1000
+ NEXT A
+225 GO TO 20
+250 'Userlog
+255 A$="List of Users"
+ GO SUB 1055
+ PRINT"Users on system:"NM
+ IF NM=0 THEN 115 ELSE A=1
+260 A$=NM$(A)
+ PRINT LEFT$(A$,INSTR(A$,"\")-1)TAB(29)RIGHT$(A$,1)
+265 IF(A/10)=INT(A/10)THEN PRINT"C-ontinue or S-top :";:UC=1:GO SUB 1005:IF LEFT$(A$,1)="S"THEN 275
+270 A=A+1
+ IF A<=NM THEN 260
+275 PRINT"*End of Userlog*"
+ GO TO 115
+300 'Post Msg
+305 IF MS=20 THEN PRINT"One moment, making room...":FOR A=0 TO 18:FOR B=0 TO 10:MS$(A,B)=MS$(A+1,B):NEXT B:NEXT A:MS=19
+310 CLS
+ PRINT CL$"This will be message #"MS+1
+ FOR A=0 TO 10
+ MS$(MS,A)=""
+ NEXT A
+ F$=NM$
+315 PRINT"From :"F$
+ PRINT"To   :";
+ UC=1
+ GO SUB 1005
+ A$=LEFT$(A$,20)
+ T$=A$
+ IF A$=""THEN 115
+320 PRINT"Is this message private? ";
+ UC=1
+ GO SUB 1005
+ IF LEFT$(A$,1)="Y"THEN S$="*E-Mail*":GO TO 330
+325 PRINT"Subj :";
+ UC=1
+ GO SUB 1005
+ A$=LEFT$(A$,18)
+ S$=A$
+ IF A$=""THEN 115
+330 PRINT"Enter up to 10 lines, 64 chars. [ENTER] on a blank line to end."
+ A=0
+335 A=A+1
+ PRINT USING"##>";A;
+ GO SUB 1005
+ MS$(MS,A)=A$
+ IF A$=""THEN A=A-1:GO TO 345 ELSE IF A<10 THEN 335
+340 PRINT"*Message Buffer Full*"
+345 PRINT"A-bort, C-ont, E-dit, L-ist, or S-ave Message? ";
+ UC=1
+ GO SUB 1005
+ A$=LEFT$(A$,1)
+ IF A$=""THEN 345
+350 LN=INSTR("ACELS",A$)
+ IF LN=0 THEN 345 ELSE ON LN GO TO 385,355,360,375,380
+355 IF A<10 THEN PRINT"Continue your message:":GO TO 335 ELSE 340
+360 PRINT"Edit line 1 -"A":";
+ GO SUB 1005
+ LN=VAL(LEFT$(A$,2))
+ IF LN<1 OR LN>A THEN 345
+365 PRINT"Line currently reads:"
+ PRINT MS$(MS,LN)
+ PRINT"Enter new line:"
+ GO SUB 1005
+ A$=LEFT$(A$,64)
+ IF A$=""THEN PRINT"*Unchanged*"ELSE MS$(MS,LN)=A$:PRINT"*Corrected*"
+370 GO TO 360
+375 CLS
+ PRINT CL$"Message Reads:"
+ FOR B=1 TO A
+ PRINT USING"##>";B;
+ PRINT MS$(MS,B)
+ NEXT B
+ GO TO 345
+380 MS$(MS,0)=T$+"\"+F$+"\"+S$
+ MS=MS+1
+ PRINT"*Message"MS"stored*"
+ GO TO 115
+385 PRINT"*Message Aborted*"
+ GO TO 115
+400 'Read Msg
+405 IF MS=0 THEN PRINT"The message base is empty.":GO TO 115
+410 CLS
+ PRINT CL$
+415 PRINT"Read Message 1 -"MS":";
+ GO SUB 1005
+ A=VAL(LEFT$(A$,2))
+ IF A<1 OR A>MS THEN 115
+420 A$=MS$(A-1,0)
+ B=INSTR(A$,"\")
+ C=INSTR(B+1,A$,"\")
+ T$=LEFT$(A$,B-1)
+ F$=MID$(A$,B+1,C-B-1)
+ S$=RIGHT$(A$,LEN(A$)-C)
+425 IF S$="*E-Mail*"AND LV<8 THEN IF NM$<>T$AND NM$<>F$THEN PRINT"That message is private.":GO TO 415
+430 CLS
+ PRINT CL$"Message #"A
+ PRINT"From :"F$
+ PRINT"To   :"T$
+ PRINT"Subj :"S$
+ PRINT
+ B=0
+435 B=B+1
+ PRINT MS$(A-1,B)
+ IF MS$(A-1,B)=""THEN 440 ELSE IF B<10 THEN 435
+440 PRINT"*End of Message*"
+ GO TO 415
+450 'Scan Titles
+455 IF MS=0 THEN PRINT"The message base is empty.":GO TO 115
+460 CLS
+ PRINT CL$"Message Titles:"
+ A=0
+465 A$=MS$(A,0)
+ PRINT USING"[##] SB: ";A+1;
+ B=INSTR(A$,"\")
+ C=INSTR(B+1,A$,"\")
+ PRINT RIGHT$(A$,LEN(A$)-C)
+ PRINT TAB(5)"TO: "LEFT$(A$,B-1)
+ A=A+1
+ IF A<MS THEN 465
+470 PRINT"*End of Messages*"
+ GO TO 115
+500 '%SYSOP MENU%
+505 IF LV<9 THEN A$="Z":GO TO 130
+510 PRINT"PASSWORD?";
+ GO SUB 1005
+ IF A$<>"?DROWSSAP"THEN PRINT"Thank You!":GO TO 115
+515 PRINT"Abort BBS? YES or NO? ";
+ UC=1
+ GO SUB 1005
+ IF A$<>"YES"THEN 115
+520 GO SUB 605
+ STOP
+550 '%LOAD%
+555 PRINT"%LOAD% [ENTER] WHEN READY";
+ GO SUB 1005
+560 OPEN"I",#-1,"USERLOG"
+ INPUT#-1,CL,NM
+ FOR A=0 TO NM
+ INPUT#-1,NM$(A)
+ NEXT A
+ CLOSE
+565 OPEN"I",#-1,"MSG BASE"
+ INPUT#-1,MS
+ FOR A=0 TO MS-1
+ FOR B=0 TO 10
+ INPUT#-1,MS$(A,B)
+ NEXT B
+ NEXT A
+ CLOSE
+ RETURN
+600 '%SAVE%
+605 PRINT"%SAVE% [ENTER] WHEN READY";
+ GO SUB 1005
+ MOTOR ON
+ FOR A=0 TO 999
+ NEXT A
+610 OPEN"O",#-1,"USERLOG"
+ PRINT#-1,CL,NM
+ FOR A=0 TO NM
+ PRINT#-1,NM$(A)
+ NEXT A
+ CLOSE
+615 OPEN"O",#-1,"MSG BASE"
+ PRINT#-1,MS
+ FOR A=0 TO MS-1
+ FOR B=0 TO 10
+ PRINT#-1,MS$(A,B)
+ NEXT B
+ NEXT A
+ CLOSE
+ RETURN
+1000 'User Input
+1005 LINE INPUT A$
+ A$=LEFT$(A$,64)
+ IF UC=0 OR A$=""THEN RETURN
+1010 FOR C=1 TO LEN(A$)
+ CH=ASC(MID$(A$,C,1))
+ IF CH>96 THEN MID$(A$,C,1)=CHR$(CH-32)
+1015 IF CH=92 THEN MID$(A$,C,1)="/"
+1020 NEXT C
+ UC=0
+ RETURN
+1050 'Function Border
+1055 CLS
+ PRINT CL$BR$
+ PRINT TAB((32-LEN(A$))/2)A$
+ PRINT BR$
+ RETURN

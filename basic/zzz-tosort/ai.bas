@@ -1,0 +1,22 @@
+10 CLS
+20 X = 20
+30 Y = INT(RND(16))
+40 GOTO 50
+50 A$ = INKEY$
+60 IF A$ = "" THEN GOTO 50
+70 IF A$ = "A" THEN X = X - 1
+80 IF A$ = "D" THEN X = X + 1
+90 IF X < 0 THEN X = 0
+100 IF X > 31 THEN X = 31
+110 POKE 1024 + X + 32 * 15, 255
+120 POKE 1024 + OX + 32 * 15, 96
+130 OX = X
+140 FOR N = 1 TO 16
+150 Y = Y + 1
+160 POKE 1024 + X + 32 * Y, 96
+170 POKE 1024 + X + 32 * (Y - 1), 96
+180 NEXT N
+190 IF Y > 15 THEN Y = 0
+200 IF A$ = "X" THEN GOTO 210
+210 GOTO 50
+220 PRINT "Thank you for playing!"

@@ -1,0 +1,89 @@
+0 REM test.bas
+10 CLS0:POKE65495,0
+20 X=10:Y=4:Z=0:XM=1:YM=1:ZM=1:ZC=0
+25 BL=1:BR=21:BT=1:BB=8
+30 Z=2:BL=2+Z:BR=31-10-Z:BT=2+Z:BB=16-7-Z
+40 P=X+Y*&H20
+50 GOSUB 1000:ON Z+1 GOSUB 100,200,300,400,500
+51 PRINT@&H0,X;Y;Z;BL;BR;BT;BB;:PRINT@X++Y*&H20,"*";
+60 X=X+XM
+61 IF X<BL OR X>BR THEN XM=-XM
+70 Y=Y+YM
+71 IF Y<BT OR Y>BB THEN YM=-YM
+80 'ZC=ZC+&H1:IF ZC=30 THEN ZC=0:Z=Z+ZM:BL=1+Z:BR=21-10-Z:BT=1+Z:BB=8-7-Z
+81 'IF Z<&H0 OR Z>&H4 THEN ZM=-ZM
+85 A$=INKEY$:IFA$=""THEN85
+86 IFA$=CHR$(8)ORA$=CHR$(9)THEN XM=-XM
+87 IFA$=CHR$(10)ORA$=CHR$(94)THEN YM=-YM
+88 IFA$="Z"THENZM=-ZM
+90 GOTO 40
+99 GOTO 99
+
+100 REM FRAME 1 - 10x7
+110 PRINT@P+&H02,  "XXXXXX";
+120 PRINT@P+&H21, "X      X";
+130 PRINT@P+&H40,"X        X";
+140 PRINT@P+&H60,"X    0   X";
+150 PRINT@P+&H80,"X        X";
+160 PRINT@P+&HA1, "X      X";
+170 PRINT@P+&HC2,  "XXXXXX";
+180 RETURN
+
+200 REM FRAME 2 - 9x6
+210 PRINT@P+&H02,  "XXXXX";
+220 PRINT@P+&H21, "X     X";
+240 PRINT@P+&H40,"X   1   X";
+250 PRINT@P+&H60,"X       X";
+260 PRINT@P+&H81, "X     X";
+270 PRINT@P+&HA2,  "XXXXX";
+280 RETURN
+
+300 REM FRAME 3 - 8x5
+310 PRINT@P+&H02,  "XXXX";
+320 PRINT@P+&H21, "X    X";
+330 PRINT@P+&H40,"X   2  X";
+360 PRINT@P+&H61, "X    X";
+370 PRINT@P+&H82,  "XXXX";
+380 RETURN
+
+400 REM FRAME 4 - 5x4
+410 PRINT@P+&H01,  "XXX";
+420 PRINT@P+&H20, "X 3 X";
+460 PRINT@P+&H40, "X   X";
+470 PRINT@P+&H61,  "XXX";
+480 RETURN
+
+500 REM FRAME 5 - 4x3
+510 PRINT@P+&H01,  "XX";
+520 PRINT@P+&H20, "X 4X";
+570 PRINT@P+&H41,  "XX";
+580 RETURN
+
+1000 REM BACKGROUND
+1001 CLS0:A$=STRING$(&H20-Z*2,&H20):FORA=ZTO&H10-Z*&H2:PRINT@A*&H20+Z,A$;:NEXT
+1002 RETURN
+1010 PRINT@.,"-.                            .-";
+1020 PRINT"  -.                        .-  ";
+1030 PRINT"    -.                    .-    ";
+1040 PRINT"      [------------------]      ";
+1050 PRINT"      [                  ]      ";
+1060 PRINT"      [                  ]      ";
+1070 PRINT"      [                  ]      ";
+1080 PRINT"      [                  ]      ";
+1090 PRINT"      [                  ]      ";
+1100 PRINT"      [                  ]      ";
+1110 PRINT"      [                  ]      ";
+1120 PRINT"      [                  ]      ";
+1130 PRINT"      [__________________]      ";
+1140 PRINT"    .-                    -.    ";
+1150 PRINT"  .-                        -.  ";
+1160 PRINT".-                            -";
+1199 RETURN
+5000 REM SELF MOD SCANNER
+5010 QF=&H0
+5020 FOR A=PEEK(25)*256+PEEK(26) TO PEEK(27)*256+PEEK(28)
+5030 IF PEEK(A)=&H22 THEN IF QF=&H1 THEN QF=&H0 ELSE QF=&H1
+5040 IF QF=&H0 THEN 5090
+5050 V=PEEK(A):IF V=&H5F THEN POKE A,&HA3
+5060 IF V=&H2D THEN POKE A,&HAC ELSE IF V=&H5B THEN POKE A,&HAA ELSE IF V=&H5D THEN POKE A,&HA5 ELSE IF V=&H58 THEN POKE A,&HAF ELSE IF V=&H20 THEN POKE A,&H80
+5090 NEXT

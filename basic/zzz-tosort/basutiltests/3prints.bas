@@ -1,0 +1,3 @@
+10 PRINT "A"
+20 PRINT "B"
+30 PRINT "C"

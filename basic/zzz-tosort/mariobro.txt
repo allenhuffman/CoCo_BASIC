@@ -1,0 +1,18 @@
+x+--------------------------------+
+1|                                |
+2|   MARIO          WORLD  TIME   |
+3|   000000  Ox00    1-1
+4|     +--------------------+
+5|     |                    |
+6|     |                    |
+7|     +--------------------+
+8|             c1985 NINTENDO     |
+9|
+0|         x 1 PLAYER GAME
+1|           2 PLAYER GAME
+2|
+3|            TOP- 000000
+4|
+5|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+6|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+x+---------------------------------+

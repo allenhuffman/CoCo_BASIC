@@ -1,0 +1,41 @@
+                Sectors (1-18)
+   +-------------------------------------+
+   |                   1 1 1 1 1 1 1 1 1 |
+   | 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 |
+   +------------------+------------------+
+0  |    Granule 0     |    Granule 1     |
+1  |    Granule 2     |    Granule 3     |
+2  |    Granule 4     |    Granule 5     |
+3  |    Granule 6     |    Granule 7     |
+4  |    Granule 8     |    Granule 8     |
+5  |    Granule 10    |    Granule 11    |
+6  |    Granule 12    |    Granule 13    |
+7  |    Granule 14    |    Granule 15    |
+8  |    Granule 16    |    Granule 17    |
+9  |    Granule 18    |    Granule 19    |
+10 |    Granule 20    |    Granule 21    |
+11 |    Granule 22    |    Granule 23    |
+12 |    Granule 24    |    Granule 25    |
+13 |    Granule 26    |    Granule 27    |
+14 |    Granule 28    |    Granule 29    |
+15 |    Granule 30    |    Granule 31    |
+16 |    Granule 32    |    Granule 33    |
+17 |  File Allocation Table & Directory  |
+18 |    Granule 34    |    Granule 35    |
+19 |    Granule 36    |    Granule 37    |
+20 |    Granule 38    |    Granule 39    |
+21 |    Granule 40    |    Granule 41    |
+22 |    Granule 42    |    Granule 43    |
+23 |    Granule 44    |    Granule 45    |
+24 |    Granule 46    |    Granule 47    |
+25 |    Granule 48    |    Granule 49    |
+26 |    Granule 50    |    Granule 51    |
+27 |    Granule 52    |    Granule 53    |
+28 |    Granule 54    |    Granule 55    |
+29 |    Granule 56    |    Granule 57    |
+30 |    Granule 58    |    Granule 59    |
+31 |    Granule 60    |    Granule 61    |
+32 |    Granule 62    |    Granule 63    |
+33 |    Granule 64    |    Granule 65    |
+34 |    Granule 66    |    Granule 67    |
+   +------------------+------------------+

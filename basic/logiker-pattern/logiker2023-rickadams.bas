@@ -1,0 +1,17 @@
+2046 REM 22616
+1 DIM A$ (4)
+10 FOR I = 0 TO 3
+20 READ A$ (I)
+30 NEXT I
+40 FOR I = -3 TO 3
+45 J=ABS(I)
+50 PRINT A$ (J) ;A$ (J) ;A$ (J);
+51 IF J<>0 THEN 59
+52 PRINT "*";
+59 PRINT
+60 NEXT I
+303 DATA "...*.."
+302 DATA "..*.*."
+301 DATA ".*...*"
+300 DATA "*....."
+2046 END

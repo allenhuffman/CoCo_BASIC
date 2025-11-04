@@ -1,0 +1,52 @@
+0 ' VARPTR3.BAS
+1 ' For this to work, ALL vars
+2 ' MUST be pre-declared here!
+10 DIM AB,AB$,AB(9),AB$(9)
+20 DIM V,HL,L
+25 AB$="12345"
+
+30 CLS
+40 PRINT "VARPT NAM"
+50 PRINT "----- ---"
+60 V=VARPTR(AB):GOSUB 1000
+70 V=VARPTR(AB$):GOSUB 1000
+
+80 PRINT
+90 PRINT "VARPT HEADR NAM LENGT #DM DIMSZ"
+100 PRINT "----- ----- --- ----- --- -----"
+110 V=VARPTR(AB(0)):GOSUB 2000
+120 V=VARPTR(AB$(0)):GOSUB 2000
+130 END
+
+1000 ' VARIABLES
+1010 PRINT USING("##### ");V;
+1020 ' Name - 2 bytes
+1030 PRINT CHR$(PEEK(V-2));CHR$(PEEK(V-1) AND &H7F);
+1040 IF PEEK(V-1) AND 128 THEN PRINT "$ ";:GOTO 1080 ELSE PRINT "  ";
+1050 ' Number
+1060 FOR L=V TO V+4:PRINT USING("### ");PEEK(L);:NEXT
+1070 PRINT:RETURN
+1080 ' String
+1090 ' Length - 1 byte.
+1100 PRINT "LEN:";PEEK(V);
+1105 ' Unused - 1 byte.
+1110 ' Ptr to string - 2 bytes.
+1120 PRINT "PTR:";PEEK(V+2)*256+PEEK(V+3)
+1130 ' Unused - 1 byte.
+1140 RETURN
+
+2000 ' ARRAYS
+2010 PRINT USING("##### ");V;
+2020 ' Header 7 bytes before.
+2030 PRINT USING("##### ");V-7;
+2040 ' Name - 2 bytes.
+2050 PRINT CHR$(PEEK(V-7));CHR$(PEEK(V-6) AND &H7F);
+2060 ' High bit means string.
+2070 IF PEEK(V-6) AND 128 THEN PRINT "$ "; ELSE PRINT "  ";
+2080 ' Length - 2 bytes.
+2090 PRINT USING("##### ");PEEK(V-5)*256+PEEK(V-4);
+2100 ' DIM size - 1 byte.
+2110 PRINT USING("### ");PEEK(V-3);
+2120 ' # DIMs - 2 bytes.
+2130 PRINT USING("#####");PEEK(V-2)*256+PEEK(V-1)
+2140 RETURN

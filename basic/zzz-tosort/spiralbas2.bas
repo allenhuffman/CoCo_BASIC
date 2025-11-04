@@ -1,0 +1,69 @@
+    0 REM SPIRALBAS2.BAS
+
+    10 CLS
+    15 ' X=START MEM LOC
+    20 X=1024
+    25 ' XS=XSTEPS (WIDTH)
+    30 XS=32
+    35 ' YS=YSTEPS (HEIGHT)
+    40 YS=16
+    45 ' B=CHAR TO POKE
+    50 B=255
+    60 GOSUB 100
+
+    70 X=1024
+    71 XS=18
+    72 YS=8
+    73 B=175 '143+32
+    74 GOSUB 100
+
+    75 X=1294 '1024+14+32*8
+    76 XS=18
+    77 YS=8
+    78 B=207 '143+64
+    79 GOSUB 100
+
+    80 X=1157 '1024+5+32*4
+    81 XS=22
+    82 YS=8
+    83 B=239 '143+96
+    84 GOSUB 100
+
+    99 GOTO 99
+
+    100 ' RIGHT
+    110 FOR A=X TO X+XS-1
+    120 POKE A,B
+    160 NEXT
+    170 X=A+31
+    180 YS=YS-1
+    190 IF YS=0 THEN 600
+
+    200 ' DOWN
+    210 FOR A=X TO X+32*(YS-1) STEP 32
+    220 POKE A,B
+    260 NEXT
+    270 X=A-33
+    280 XS=XS-1
+    290 IF XS=0 THEN 600
+
+    300 ' LEFT
+    310 FOR A=X TO X-XS+1 STEP -1
+    320 POKE A,B
+    360 NEXT
+    370 X=A-31
+    380 YS=YS-1
+    390 IF YS=0 THEN 600
+
+    400 ' UP
+    410 FOR A=X TO X-32*(YS-1) STEP -32
+    420 POKE A,B
+    460 NEXT
+    470 X=A+33
+    480 XS=XS-1
+    490 IF XS=0 THEN 600
+
+    500 GOTO 100
+
+    600 RETURN
+

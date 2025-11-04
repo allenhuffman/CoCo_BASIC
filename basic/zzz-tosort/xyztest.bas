@@ -1,0 +1,123 @@
+0 REM xyztest.bas
+10 GOSUB 2000
+
+40 P=X+Y*&H20
+50 GOSUB 1000:ON F GOSUB 100,200,300,400,500
+51 PRINT@&H0,F;":";X;Y;Z;" ";L;T;"-";R;B;
+
+60 X=X+XM:IF X<L OR X>R THEN XM=-XM
+
+70 Y=Y+YM:IF Y<T OR Y>B THEN YM=-YM
+
+80 'Z=Z+ZM
+81 IF Z<&H0 OR Z>FM THEN ZM=-ZM
+
+85 'FC=FC+&H1
+86 IF FC<FM THEN 90
+87 FC=&H1:F=F+&H1:IFF>FM THENF=&H1
+88 L=Z:T=Z:R=&H1E-W-Z:B=&HE-H-Z
+
+
+90 A$=INKEY$:IF A$="" THEN 90 ELSE IF A$="Z" THEN FC=FM
+95 GOTO 40
+
+100 REM FRAME 1 - 10 X 7
+110 PRINT@P+&H02,  "XXXXXX";
+120 PRINT@P+&H21, "X1     X";
+130 PRINT@P+&H40,"X        X";
+140 PRINT@P+&H60,"X        X";
+150 PRINT@P+&H80,"X        X";
+160 PRINT@P+&HA1, "X      X";
+170 PRINT@P+&HC2,  "XXXXXX";
+180 RETURN
+
+200 REM FRAME 2 - 9 X 6
+210 PRINT@P+&H02,  "XXXXX";
+220 PRINT@P+&H21, "X2    X";
+240 PRINT@P+&H40,"X       X";
+250 PRINT@P+&H60,"X       X";
+260 PRINT@P+&H81, "X     X";
+270 PRINT@P+&HA2,  "XXXXX";
+280 RETURN
+
+300 REM FRAME 3 - 8 X 5
+310 PRINT@P+&H02,  "XXXX";
+320 PRINT@P+&H21, "X3   X";
+330 PRINT@P+&H40,"X      X";
+360 PRINT@P+&H61, "X    X";
+370 PRINT@P+&H82,  "XXXX";
+380 RETURN
+
+400 REM FRAME 4 - 7 X 4
+410 PRINT@P+&H01,  "XXXXX";
+420 PRINT@P+&H20, "X4    X";
+460 PRINT@P+&H40, "X     X";
+470 PRINT@P+&H61,  "XXXXX";
+480 RETURN
+
+500 REM FRAME 5 - 6 X 3
+510 PRINT@P+&H01,  "XXXX";
+520 PRINT@P+&H20, "X5   X";
+570 PRINT@P+&H41,  "XXXX";
+580 RETURN
+
+1000 REM BACKGROUND
+1010 PRINT@.,"-.                            .-";
+1020 PRINT"  -.                        .-  ";
+1030 PRINT"    -.                    .-    ";
+1040 PRINT"      <------------------>      ";
+1050 PRINT"      [                  ]      ";
+1060 PRINT"      [                  ]      ";
+1070 PRINT"      [                  ]      ";
+1080 PRINT"      [                  ]      ";
+1090 PRINT"      [                  ]      ";
+1100 PRINT"      [                  ]      ";
+1110 PRINT"      [                  ]      ";
+1120 PRINT"      [                  ]      ";
+1130 PRINT"      (..................)      ";
+1140 PRINT"    .-                    -.    ";
+1150 PRINT"  .-                        -.  ";
+1160 PRINT".-                            -";
+1199 RETURN
+
+2000 REM INIT CODE
+2010 CLS0:POKE65495,0
+2012 '
+2013 ' FRAME SIZE
+2014 '
+2015 W=10:H=7
+2016 '
+2017 ' BALL POSITION
+2018 '
+2020 X=0:Y=0:Z=0:XM=1:YM=1:ZM=1
+2024 '
+2025 ' BOUNDRIES
+2026 '
+2030 L=1:R=32-W-1:T=1:B=16-H-1
+2044 '
+2045 ' FRAME, COUNTER, MAX NUMBER
+2046 '
+2040 F=1:FC=0:FM=5
+2099 RETURN
+
+5000 REM SELF MOD SCANNER
+5001 POKE 65395,0
+5005 IF ASC("%")<>37 THEN RETURN
+5010 QF=&H0
+5020 FOR A=PEEK(25)*256+PEEK(26) TO PEEK(27)*256+PEEK(28)
+5030 V=PEEK(A)
+5040 IF V=&H22 THEN IF QF=&H1 THEN QF=&H0 ELSE QF=&H1
+5050 IF QF=&H0 THEN 5090
+5060 IF V=&H2D THEN V=&HAC:GOTO 5080
+5061 IF V=&H2E THEN V=&HA3:GOTO 5080
+5062 IF V=&H3C THEN V=&HAE:GOTO 5080
+5063 IF V=&H3E THEN V=&HAD:GOTO 5080
+5064 IF V=&H5B THEN V=&HAA:GOTO 5080
+5065 IF V=&H5D THEN V=&HA5:GOTO 5080
+5066 IF V=&H28 THEN V=&HAB:GOTO 5080
+5067 IF V=&H29 THEN V=&HA7:GOTO 5080
+5068 IF V=&H20 THEN V=&H80:GOTO 5080
+5069 IF V=&H58 THEN V=&HAF:GOTO 5080
+5070 GOTO 5090
+5080 POKE A,V
+5090 NEXT
