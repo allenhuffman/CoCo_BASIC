@@ -7,7 +7,8 @@
 ; This is the small version that only supports EXEC.
 
 ; Smaller, so it can load at $3f00 (16K) or $7f00 (32K).
-ORGADDR     equ     $3f00       ; Where program loads in memory
+;ORGADDR     equ     $3f00       ; Where program loads in memory
+ORGADDR     equ     $7f00       ; Where program loads in memory
 
 ;------------------------------------------------------------------------------
 ; Definitions
